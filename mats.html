@@ -5,8 +5,140 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Item Kalkulator</title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="js/itemcalc.js"></script>
-  <link rel="stylesheet" href="style/itemcalc.css"
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #101010;
+      color: #e0e0e0;
+      font-family: 'Rubik', sans-serif;
+      padding: 40px 20px;
+      max-width: 600px;
+      margin: auto;
+      line-height: 1.6;
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    h2 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      color: #50cefb;
+      border-bottom: 2px solid #222;
+      padding-bottom: 5px;
+    }
+
+    label {
+      display: block;
+      margin: 20px 0 5px;
+      font-weight: 500;
+      color: #ccc;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      border: 1px solid #333;
+      border-radius: 8px;
+      background-color: #1c1c1c;
+      color: #f0f0f0;
+      transition: border 0.3s;
+    }
+
+    input:focus {
+      border-color: #41b2fb;
+      outline: none;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 14px;
+      width: 100%;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #000;
+      background-color: #83aff8;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #948bfa;
+    }
+
+    .result {
+      background-color: #1a1a1a;
+      padding: 16px;
+      border-left: 4px solid #8f25f4;
+      border-radius: 6px;
+      margin-top: 20px;
+      font-size: 1.05rem;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #333;
+      margin: 40px 0;
+    }
+
+    /* Light mode toggle */
+    .light-mode {
+      background-color: #f9f9f9;
+      color: #222;
+    }
+
+    .light-mode input {
+      background-color: #fff;
+      color: #000;
+      border: 1px solid #bbb;
+    }
+
+    .light-mode button {
+      background-color: #50cefb;
+      color: #000;
+    }
+
+    .light-mode .result {
+      background-color: #eeeeee;
+      border-left: 4px solid #41b2fb;
+    }
+
+    .toggle-mode {
+      text-align: right;
+      margin-bottom: 20px;
+    }
+
+    .toggle-mode button {
+      width: auto;
+      padding: 6px 12px;
+      font-size: 0.9rem;
+      background-color: #333;
+      color: #eee;
+      border-radius: 6px;
+      border: none;
+    }
+
+    .light-mode .toggle-mode button {
+      background-color: #ddd;
+      color: #111;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 15px;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="toggle-mode">
@@ -34,5 +166,47 @@
 
   <button onclick="calcSpina()">Hitung Total Spina</button>
   <div id="spinaResult" class="result" style="display: none;"></div>
+  <script>
+    function calcStacks() {
+  const pointPerStack = parseFloat(document.getElementById('pointPerStack').value);
+  const totalPointNeeded = parseFloat(document.getElementById('totalPointNeeded').value);
+
+  if (!pointPerStack || !totalPointNeeded || pointPerStack <= 0) {
+    alert("Isi input dengan benar yaa~");
+    return;
+  }
+
+  const stacksNeeded = Math.ceil(totalPointNeeded / pointPerStack);
+  const resultBox = document.getElementById('stackResult');
+  resultBox.innerHTML = `<b>Jumlah yang dibutuhkan:</b> ${stacksNeeded} stak`;
+  resultBox.style.display = 'block';
+}
+
+function calcSpina() {
+  const pricePerStack = parseFloat(document.getElementById('pricePerStack').value);
+  const stacksToBuy = parseFloat(document.getElementById('stacksToBuy').value);
+
+  if (!pricePerStack || !stacksToBuy || pricePerStack <= 0) {
+    alert("Isi input dengan benar yaa~");
+    return;
+  }
+
+  const totalCost = pricePerStack * stacksToBuy;
+  const resultBox = document.getElementById('spinaResult');
+  resultBox.innerHTML = `<b>Total spina yang di butuhkan:</b> ${totalCost.toLocaleString()} spina`;
+  resultBox.style.display = 'block';
+}
+
+function toggleMode() {
+  document.body.classList.toggle('light-mode');
+  
+  const btn = document.querySelector('.toggle-mode button');
+  if (document.body.classList.contains('light-mode')) {
+    btn.textContent = 'Dark Mode';
+  } else {
+    btn.textContent = 'Light Mode';
+  }
+  }
+  </script>
 </body>
 </html>
