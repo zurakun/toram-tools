@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Toram Tools</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <div class="logo">Toram Tools</div>
+    <div class="hamburger" onclick="toggleSidebar()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+<div class="sidebar" id="sidebar">
+  <a href="index.html">Beranda</a>
+  <a href="ingfo.html">Info</a>
+  <a href="mats.html">MatsCalc</a>
+  <a href="spina.html">SpinaCalc</a>
+  <a href="https://trakteer.id/zuraofc" target="_blank" class="donate-link">Donasi</a>
+</div>
+
+  <div class="container">
+    <h1>Selamat Datang di Toram Tools</h1>
+    <h2>Alat bantu praktis untuk pemain Toram Online</h2>
+    <p>
+      Website ini menyediakan berbagai alat bantu seperti kalkulator material untuk crafting dan perhitungan estimasi spina berdasarkan nilai tukar.
+      Gunakan salah satu fitur yang tersedia untuk mempermudah petualanganmu!
+    </p>
+
+    <div class="button-group">
+      <a href="mats.html">MatsCalc</a>
+      <a href="spina.html">SpinaCalc</a>
+    </div>
+
+    <div class="credit">
+      Dibuat oleh <a href="https://wa.me/6283892857189" target="_blank">Zura OFC</a> dengan bantuan <a href="https://openai.com/chatgpt" target="_blank">ChatGPT</a> © 2025
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("active");
+    }
+  </script>
+</body>
+</html>

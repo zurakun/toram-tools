@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Info - Toram Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background-color: #121212;
+      color: #e0e0e0;
+      font-family: 'Rubik', sans-serif;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background-color: #1c1c1c;
+      position: relative;
+      z-index: 2;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #4ec9f0;
+    }
+
+    .hamburger {
+      width: 26px;
+      height: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      display: block;
+      height: 3px;
+      background-color: #eee;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -250px;
+      width: 250px;
+      height: 100%;
+      background-color: #1b1b1b;
+      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.6);
+      padding: 60px 20px 20px;
+      transition: right 0.3s ease;
+      z-index: 1;
+    }
+
+    .sidebar.active {
+      right: 0;
+    }
+
+    .sidebar a {
+      display: block;
+      margin: 15px 0;
+      color: #ccc;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px;
+      border-left: 3px solid transparent;
+      transition: all 0.3s;
+    }
+
+    .sidebar a:hover {
+      border-left: 3px solid #4ec9f0;
+      background-color: #262626;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      animation: fadeSlideUp 0.7s ease-out;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #4ec9f0;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin-top: 30px;
+      color: #ccc;
+    }
+
+    p {
+      color: #aaa;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    li {
+      margin-bottom: 10px;
+      color: #bbb;
+    }
+
+    .credit {
+      margin-top: 50px;
+      font-size: 14px;
+      color: #777;
+      text-align: center;
+    }
+
+    .credit a {
+      color: #ccc;
+      text-decoration: underline;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Toram Tools</div>
+    <div class="hamburger" onclick="toggleSidebar()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+  <div class="sidebar" id="sidebar">
+    <a href="index.html">Beranda</a>
+    <a href="info.html">Info</a>
+    <a href="#tools">Tools Tersedia</a>
+    <a href="https://github.com/username/matscalc" target="_blank">MatsCalc</a>
+    <a href="https://github.com/username/spinacalc" target="_blank">SpinaCalc</a>
+  </div>
+
+  <div class="container">
+    <h1>Informasi Tentang Toram Tools</h1>
+    <p>
+      Toram Tools adalah kumpulan alat bantu berbasis web untuk mempermudah pemain Toram Online dalam melakukan berbagai perhitungan, terutama yang berkaitan dengan material crafting dan estimasi harga spina berdasarkan rate.
+    </p>
+
+    <h2 id="tools">Tools yang Tersedia</h2>
+    <ul>
+      <li><strong>MatsCalc:</strong> Menghitung kebutuhan material berdasarkan jumlah poin crafting.</li>
+      <li><strong>SpinaCalc:</strong> Menghitung estimasi spina berdasarkan nilai IDR dan rate per 100M.</li>
+    </ul>
+
+    <h2>Tujuan Website</h2>
+    <p>
+      Website ini dibuat untuk memberikan solusi cepat dan praktis tanpa perlu membuka aplikasi tambahan. Semua berjalan langsung di browser dan dapat diakses kapan saja.
+    </p>
+
+    <h2>Terima Kasih</h2>
+    <p>
+      Proyek ini dikerjakan oleh <strong>Zura OFC</strong> dengan bantuan <strong>ChatGPT</strong> sebagai co-creator yang memberikan kode, inspirasi, dan optimasi. Semua hak cipta dan penghargaan tetap milik masing-masing pemilik game dan platform.
+    </p>
+
+    <div class="credit">
+      Dibuat oleh <a href="https://wa.me/6283892857189" target="_blank">Zura OFC</a> © 2025
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("active");
+    }
+  </script>
+
+</body>
+</html>

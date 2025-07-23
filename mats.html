@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Item Kalkulator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="js/itemcalc.js"></script>
+  <link rel="stylesheet" href="style/itemcalc.css"
+</head>
+<body>
+  <div class="toggle-mode">
+    <button onclick="toggleMode()">Light Mode</button>
+  </div>
+
+  <h2>Hitung Poin Material</h2>
+  <label>Poin material per 1 stak:</label>
+  <input type="number" id="pointPerStack" placeholder="Contoh: 970">
+
+  <label>Total poin yang dibutuhkan:</label>
+  <input type="number" id="totalPointNeeded" placeholder="Contoh: 200000">
+
+  <button onclick="calcStacks()">Hitung Jumlah</button>
+  <div id="stackResult" class="result" style="display: none;"></div>
+
+  <hr>
+
+  <h2>Kalkulasi Total Spina</h2>
+  <label>Harga per 1 stak (spina):</label>
+  <input type="number" id="pricePerStack" placeholder="Contoh: 70000">
+
+  <label>Jumlah yang perlu dibeli:</label>
+  <input type="number" id="stacksToBuy" placeholder="Contoh: 50">
+
+  <button onclick="calcSpina()">Hitung Total Spina</button>
+  <div id="spinaResult" class="result" style="display: none;"></div>
+</body>
+</html>
