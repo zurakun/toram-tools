@@ -1,52 +1,686 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Toram Tools</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toram Tools - Homepage</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Rubik', 'Segoe UI', sans-serif;
+      background-color: #0a0a0a;
+      color: #e0e0e0;
+      transition: background-color 0.4s, color 0.4s;
+      line-height: 1.6;
+    }
+
+    body.light-mode {
+      background-color: #f5f5f5;
+      color: #222;
+    }
+
+    /* Toggle Switch */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #333;
+      transition: 0.4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #50cefb;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .slider i {
+      position: absolute;
+      top: 8px;
+      font-size: 16px;
+      transition: 0.4s;
+    }
+
+    .slider .fa-moon {
+      left: 8px;
+      color: #f1c40f;
+    }
+
+    .slider .fa-sun {
+      right: 8px;
+      color: #f39c12;
+      opacity: 0;
+    }
+
+    input:checked + .slider .fa-moon {
+      opacity: 0;
+    }
+
+    input:checked + .slider .fa-sun {
+      opacity: 1;
+    }
+
+    /* Popup */
+    .popup {
+      display: flex;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .popup-content {
+      background-color: #1a1a1a;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 500px;
+      text-align: center;
+      position: relative;
+      animation: slideDown 0.5s ease;
+    }
+
+    body.light-mode .popup-content {
+      background-color: #fff;
+      color: #222;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .popup-content h2 {
+      margin-bottom: 15px;
+      color: #50cefb;
+    }
+
+    .popup-content p {
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      color: #aaa;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .close:hover {
+      color: #fff;
+    }
+
+    body.light-mode .close:hover {
+      color: #000;
+    }
+
+    .popup-content button {
+      padding: 12px 30px;
+      background-color: #50cefb;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .popup-content button:hover {
+      background-color: #41b2fb;
+    }
+
+    /* Navbar */
+    nav {
+      background-color: #1a1a1a;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    body.light-mode nav {
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #50cefb;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    /* Hamburger Menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background-color: #50cefb;
+      transition: 0.3s;
+      border-radius: 2px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #e0e0e0;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    body.light-mode nav ul li a {
+      color: #222;
+    }
+
+    nav ul li a:hover {
+      color: #50cefb;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 100px 20px;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    }
+
+    body.light-mode .hero {
+      background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: #50cefb;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      animation: fadeInUp 1s ease;
+    }
+
+    .hero a {
+      padding: 15px 40px;
+      background-color: #50cefb;
+      color: #000;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: 0.3s;
+      display: inline-block;
+      animation: fadeInUp 1.2s ease;
+    }
+
+    .hero a:hover {
+      background-color: #41b2fb;
+      transform: translateY(-3px);
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Features */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      padding: 60px 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .card {
+      background-color: #1a1a1a;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      transition: 0.4s;
+      opacity: 0;
+      transform: translateY(30px);
+      border: 1px solid #2a2a2a;
+    }
+
+    body.light-mode .card {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .card.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 30px rgba(80, 206, 251, 0.3);
+    }
+
+    .card h3 {
+      color: #50cefb;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+
+    .card p {
+      margin-bottom: 20px;
+      color: #ccc;
+    }
+
+    body.light-mode .card p {
+      color: #555;
+    }
+
+    .card a {
+      padding: 10px 25px;
+      background-color: #50cefb;
+      color: #000;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: 0.3s;
+      display: inline-block;
+    }
+
+    .card a:hover {
+      background-color: #41b2fb;
+    }
+
+    /* Panduan */
+    .panduan {
+      background-color: #1a1a1a;
+      padding: 50px 40px;
+      text-align: center;
+      margin: 40px auto;
+      max-width: 1200px;
+      border-radius: 12px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: 0.6s;
+    }
+
+    body.light-mode .panduan {
+      background-color: #fff;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .panduan.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .panduan h2 {
+      color: #50cefb;
+      margin-bottom: 15px;
+      font-size: 2rem;
+    }
+
+    .panduan p {
+      font-size: 1.1rem;
+      color: #ccc;
+    }
+
+    body.light-mode .panduan p {
+      color: #555;
+    }
+
+    /* About */
+    .about {
+      padding: 60px 40px;
+      max-width: 1200px;
+      margin: auto;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: 0.6s;
+    }
+
+    .about.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .about h2 {
+      color: #50cefb;
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    .about p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #ccc;
+    }
+
+    body.light-mode .about p {
+      color: #555;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #1a1a1a;
+      padding: 30px 40px;
+      text-align: center;
+      margin-top: 60px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: 0.6s;
+    }
+
+    body.light-mode footer {
+      background-color: #fff;
+      border-top: 1px solid #ddd;
+    }
+
+    footer.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer p {
+      margin-bottom: 15px;
+      color: #ccc;
+    }
+
+    body.light-mode footer p {
+      color: #555;
+    }
+
+    .socials {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .socials a {
+      color: #50cefb;
+      font-size: 1.5rem;
+      transition: 0.3s;
+    }
+
+    .socials a:hover {
+      color: #41b2fb;
+      transform: scale(1.2);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-right {
+        gap: 15px;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      nav ul {
+        position: fixed;
+        top: 65px;
+        right: 10px;
+        background-color: #1a1a1a;
+        flex-direction: column;
+        width: 200px;
+        padding: 20px;
+        gap: 15px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        border-radius: 8px;
+        transform: translateX(120%);
+        transition: transform 0.3s ease;
+        z-index: 998;
+      }
+
+      body.light-mode nav ul {
+        background-color: #fff;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      }
+
+      nav ul.active {
+        transform: translateX(0);
+      }
+
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(8px, 8px);
+      }
+
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(8px, -8px);
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .features {
+        padding: 40px 20px;
+      }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <header>
-    <div class="logo">Toram Tools</div>
-    <div class="hamburger" onclick="toggleSidebar()">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  </header>
-
-<div class="sidebar" id="sidebar">
-  <a href="index.html">Beranda</a>
-  <a href="ingfo.html">Info</a>
-  <a href="mats.html">MatsCalc</a>
-  <a href="spina.html">SpinaCalc</a>
-  <a href="https://trakteer.id/zuraofc" target="_blank" class="donate-link">Donasi</a>
-</div>
-
-  <div class="container">
-    <h1>Selamat Datang di Toram Tools</h1>
-    <h2>Alat bantu praktis untuk pemain Toram Online</h2>
-    <p>
-      Website ini menyediakan berbagai alat bantu seperti kalkulator material untuk crafting dan perhitungan estimasi spina berdasarkan nilai tukar.
-      Gunakan salah satu fitur yang tersedia untuk mempermudah petualanganmu!
-    </p>
-
-    <div class="button-group">
-      <a href="mats.html">MatsCalc</a>
-      <a href="spina.html">SpinaCalc</a>
-    </div>
-
-    <div class="credit">
-      Dibuat oleh <a href="https://wa.me/6283892857189" target="_blank">Zura OFC</a> dengan bantuan <a href="https://openai.com/chatgpt" target="_blank">ChatGPT</a> © 2025
+  <!-- Popup iklan -->
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <span class="close" onclick="closePopup()">&times;</span>
+      <h2>Jasa <b><a href="joki.html" style="color:#4da6ff; text-decoration:none;">Joki MQ</a></b> Toram Online</h2>
+      <p>
+        Capek grind quest utama? Biarkan kami bantu dengan jasa 
+        <b><a href="joki.html" style="color:#4da6ff; text-decoration:none;">Joki MQ</a></b> terpercaya. Cepat, aman, dan terbukti membantu 
+        banyak pemain menyelesaikan MQ lebih mudah!
+      </p>
+      <button onclick="closePopup()">Lanjut ke Toram Tools</button>
     </div>
   </div>
 
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">Toram Tools</div>
+    <div class="nav-right">
+      <ul id="navMenu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="spina.html">Spina</a></li>
+        <li><a href="mats.html">Mats</a></li>
+        <li><a href="info.html">Info</a></li>
+      </ul>
+      <div class="theme-toggle">
+        <label class="switch">
+          <input type="checkbox" id="themeToggle">
+          <span class="slider">
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
+          </span>
+        </label>
+      </div>
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Selamat Datang di Toram Tools</h1>
+    <p>All-in-one helper untuk pemain Toram Online. Hitung item, joki MQ, dan banyak lagi!</p>
+    <a href="spina.html">Mulai Sekarang</a>
+  </section>
+
+  <!-- Features -->
+  <section class="features">
+    <div class="card">
+      <h3>Item Calculator</h3>
+      <p>Hitung kebutuhan item dengan cepat.</p>
+      <a href="mats.html">Gunakan</a>
+    </div>
+    <div class="card">
+      <h3>Spina Tools</h3>
+      <p>Estimasi harga & spina lebih mudah.</p>
+      <a href="spina.html">Gunakan</a>
+    </div>
+  </section>
+
+  <!-- Panduan Lengkap -->
+  <section class="panduan">
+    <h2>Panduan Lengkap</h2>
+    <p>Temukan panduan lengkap tentang bahan MQ, buff, dan leveling guide di halaman <a href="panduan.html" style="color:#4da6ff;">Panduan Lengkap</a>.</p>
+  </section>
+
+  <!-- About -->
+  <section class="about">
+    <h2>Tentang Project</h2>
+    <p>
+      Toram Tools dibuat untuk memudahkan para pemain Toram Online 
+      dalam menghitung item, mengelola quest, hingga membantu kebutuhan spina.
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Toram Tools. All rights reserved. | Developed by Zura</p>
+    <div class="socials">
+       <a href="https://www.instagram.com/zuraofc_?igsh=MXhkdHh0Z2MwMmE1ag==" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://whatsapp.com/channel/0029VaFqhZ06GcGB1H7hYr2F" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://youtube.com/@zuraofc?si=9QGtDrjD6popstUE" title="YouTube"><i class="fab fa-youtube"></i></a>
+    </div>
+  </footer>
+
   <script>
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("active");
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') {
+      body.classList.add('light-mode');
+      themeToggle.checked = true;
     }
+
+    // Toggle theme
+    themeToggle.addEventListener('change', () => {
+      if (themeToggle.checked) {
+        body.classList.add('light-mode');
+        localStorage.setItem('theme', 'light');
+      } else {
+        body.classList.remove('light-mode');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+
+    // Hamburger Menu
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+
+    // Close menu when clicking menu item
+    document.querySelectorAll('#navMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+      });
+    });
+
+    // Close popup
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+    }
+
+    // Scroll reveal
+    const revealElements = document.querySelectorAll(".card, .about, footer, .hero, .panduan");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) entry.target.classList.add("active");
+      });
+    }, {threshold:0.2});
+    revealElements.forEach(el => observer.observe(el));
   </script>
+
 </body>
-</html>
+  </html>
