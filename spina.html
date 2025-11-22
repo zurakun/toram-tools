@@ -3,168 +3,479 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kalkulator Spina</title>
+  <title>Kalkulator Spina - Toram Tools</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     * {
-  box-sizing: border-box;
-}
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-body {
-  background-color: #101010;
-  color: #e0e0e0;
-  font-family: 'Rubik', sans-serif;
-  padding: 40px 20px;
-  max-width: 600px;
-  margin: auto;
-  line-height: 1.6;
-  transition: background-color 0.4s, color 0.4s;
-}
+    body {
+      font-family: 'Rubik', 'Segoe UI', sans-serif;
+      background-color: #0a0a0a;
+      color: #e0e0e0;
+      transition: background-color 0.4s, color 0.4s;
+      line-height: 1.6;
+    }
 
-h2 {
-  font-size: 1.5em;
-  margin-bottom: 10px;
-  color: #50cefb;
-  border-bottom: 2px solid #222;
-  padding-bottom: 5px;
-}
+    body.light-mode {
+      background-color: #f5f5f5;
+      color: #222;
+    }
 
-label {
-  display: block;
-  margin: 20px 0 5px;
-  font-weight: 500;
-  color: #ccc;
-}
+    /* Navbar */
+    nav {
+      background-color: #1a1a1a;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      position: relative;
+    }
 
-input {
-  width: 100%;
-  padding: 12px;
-  font-size: 1rem;
-  border: 1px solid #333;
-  border-radius: 8px;
-  background-color: #1c1c1c;
-  color: #f0f0f0;
-  transition: border 0.3s, background 0.3s, color 0.3s;
-}
+    body.light-mode nav {
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
 
-input:focus {
-  border-color: #41b2fb;
-  outline: none;
-}
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #50cefb;
+    }
 
-button {
-  margin-top: 20px;
-  padding: 14px;
-  width: 100%;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #000;
-  background-color: #83aff8;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
 
-button:hover {
-  background-color: #948bfa;
-}
+    /* Toggle Switch */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+    }
 
-.result {
-  background-color: #1a1a1a;
-  padding: 16px;
-  border-left: 4px solid #8f25f4;
-  border-radius: 6px;
-  margin-top: 20px;
-  font-size: 1.05rem;
-  animation: fadeIn 0.4s ease;
-}
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
 
-hr {
-  border: none;
-  border-top: 1px solid #333;
-  margin: 40px 0;
-}
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #333;
+      transition: 0.4s;
+      border-radius: 34px;
+    }
 
-/* Light mode overrides */
-.light-mode {
-  background-color: #f9f9f9;
-  color: #222;
-}
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
 
-.light-mode input {
-  background-color: #fff;
-  color: #000;
-  border: 1px solid #bbb;
-}
+    input:checked + .slider {
+      background-color: #50cefb;
+    }
 
-.light-mode button {
-  background-color: #50cefb;
-  color: #000;
-}
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
 
-.light-mode .result {
-  background-color: #eeeeee;
-  border-left: 4px solid #41b2fb;
-}
+    .slider i {
+      position: absolute;
+      top: 8px;
+      font-size: 16px;
+      transition: 0.4s;
+    }
 
-.toggle-mode {
-  text-align: right;
-  margin-bottom: 20px;
-}
+    .slider .fa-moon {
+      left: 8px;
+      color: #f1c40f;
+    }
 
-.toggle-mode button {
-  width: auto;
-  padding: 6px 12px;
-  font-size: 0.9rem;
-  background-color: #333;
-  color: #eee;
-  border-radius: 6px;
-  border: none;
-  transition: all 0.3s ease;
-}
+    .slider .fa-sun {
+      right: 8px;
+      color: #f39c12;
+      opacity: 0;
+    }
 
-.light-mode .toggle-mode button {
-  background-color: #ddd;
-  color: #111;
-}
+    input:checked + .slider .fa-moon {
+      opacity: 0;
+    }
 
-@media (max-width: 600px) {
-  body {
-    padding: 20px 15px;
-  }
+    input:checked + .slider .fa-sun {
+      opacity: 1;
+    }
+
+    /* Hamburger Menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background-color: #50cefb;
+      transition: 0.3s;
+      border-radius: 2px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #e0e0e0;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    body.light-mode nav ul li a {
+      color: #222;
+    }
+
+    nav ul li a:hover {
+      color: #50cefb;
+    }
+
+    /* Container */
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 20px;
+      animation: fadeSlideUp 0.7s ease-out;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h2 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      color: #50cefb;
+      border-bottom: 2px solid #222;
+      padding-bottom: 5px;
+    }
+
+    body.light-mode h2 {
+      border-bottom: 2px solid #ddd;
+    }
+
+    label {
+      display: block;
+      margin: 20px 0 5px;
+      font-weight: 500;
+      color: #ccc;
+    }
+
+    body.light-mode label {
+      color: #555;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      border: 1px solid #333;
+      border-radius: 8px;
+      background-color: #1c1c1c;
+      color: #f0f0f0;
+      transition: border 0.3s, background 0.3s, color 0.3s;
+    }
+
+    body.light-mode input {
+      background-color: #fff;
+      color: #000;
+      border: 1px solid #bbb;
+    }
+
+    input:focus {
+      border-color: #41b2fb;
+      outline: none;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 14px;
+      width: 100%;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #000;
+      background-color: #50cefb;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #41b2fb;
+      transform: translateY(-2px);
+    }
+
+    .result {
+      background-color: #1a1a1a;
+      padding: 16px;
+      border-left: 4px solid #50cefb;
+      border-radius: 6px;
+      margin-top: 20px;
+      font-size: 1.05rem;
+      animation: fadeIn 0.4s ease;
+    }
+
+    body.light-mode .result {
+      background-color: #eeeeee;
+      border-left: 4px solid #41b2fb;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #333;
+      margin: 40px 0;
+    }
+
+    body.light-mode hr {
+      border-top: 1px solid #ddd;
+    }
+
+    /* Footer */
+    .credit {
+      margin-top: 60px;
+      padding: 30px 20px;
+      border-top: 1px solid #333;
+      text-align: center;
+    }
+
+    body.light-mode .credit {
+      border-top: 1px solid #ddd;
+    }
+
+    .credit p {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 15px;
+    }
+
+    .credit a {
+      color: #50cefb;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .credit a:hover {
+      color: #41b2fb;
+    }
+
+    .socials {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .socials a {
+      color: #50cefb;
+      font-size: 1.5rem;
+      transition: 0.3s;
+    }
+
+    .socials a:hover {
+      color: #41b2fb;
+      transform: scale(1.2);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-right {
+        gap: 15px;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      nav ul {
+        position: fixed;
+        top: 65px;
+        right: 10px;
+        background-color: #1a1a1a;
+        flex-direction: column;
+        width: 200px;
+        padding: 20px;
+        gap: 15px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        border-radius: 8px;
+        transform: translateX(120%);
+        transition: transform 0.3s ease;
+        z-index: 998;
+      }
+
+      body.light-mode nav ul {
+        background-color: #fff;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      }
+
+      nav ul.active {
+        transform: translateX(0);
+      }
+
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(8px, 8px);
+      }
+
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(8px, -8px);
+      }
+
+      .container {
+        padding: 0 15px;
+        margin: 30px auto;
+      }
     }
   </style>
-
-  <!-- Tambahan FONT dan CSS -->
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
-<body id="main-body">
+<body>
 
-  <div class="toggle-mode">
-    <button id="modeToggle">Light Mode</button>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">Toram Tools</div>
+    <div class="nav-right">
+      <ul id="navMenu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="spina.html">Spina</a></li>
+        <li><a href="mats.html">Mats</a></li>
+        <li><a href="info.html">Info</a></li>
+      </ul>
+      <div class="theme-toggle">
+        <label class="switch">
+          <input type="checkbox" id="themeToggle">
+          <span class="slider">
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
+          </span>
+        </label>
+      </div>
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="container">
+    <h2>Kalkulator Spina</h2>
+
+    <label>Masukkan rate (Contoh: 136):</label>
+    <input type="number" id="rate" placeholder="Rate (persen)">
+
+    <label>Masukkan IDR (Contoh: 30.000):</label>
+    <input type="text" id="idr" placeholder="Masukkan nilai IDR" oninput="formatIDR(this)">
+
+    <button onclick="hitungSpina()">Hitung</button>
+
+    <div class="result" id="hasil" style="display: none;"></div>
+
+    <!-- Footer -->
+    <div class="credit">
+      <p>&copy; 2025 Toram Tools. All rights reserved. | Developed by Zura</p>
+      <div class="socials">
+        <a href="https://www.instagram.com/zuraofc_?igsh=MXhkdHh0Z2MwMmE1ag==" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://whatsapp.com/channel/0029VaFqhZ06GcGB1H7hYr2F" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://youtube.com/@zuraofc?si=9QGtDrjD6popstUE" title="YouTube"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
   </div>
 
-  <h2>Kalkulator Spina</h2>
-
-  <label>Masukkan rate (Contoh: 136):</label>
-  <input type="number" id="rate" placeholder="Rate (persen)">
-
-  <label>Masukkan IDR (Contoh: 30.000):</label>
-  <input type="text" id="idr" placeholder="Masukkan nilai IDR" oninput="formatIDR(this)">
-
-  <button onclick="hitungSpina()">Hitung</button>
-
-  <div class="result" id="hasil" style="display: none;"></div>
-
-   
-
-  <!-- Fungsi Hitung -->
   <script>
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') {
+      body.classList.add('light-mode');
+      themeToggle.checked = true;
+    }
+
+    // Toggle theme
+    themeToggle.addEventListener('change', () => {
+      if (themeToggle.checked) {
+        body.classList.add('light-mode');
+        localStorage.setItem('theme', 'light');
+      } else {
+        body.classList.remove('light-mode');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+
+    // Hamburger Menu
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+
+    // Close menu when clicking menu item
+    document.querySelectorAll('#navMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+      });
+    });
+
+    // Calculator Functions
     function formatIDR(input) {
       let value = input.value.replace(/\D/g, "");
       input.value = new Intl.NumberFormat("id-ID").format(value);
@@ -183,30 +494,12 @@ hr {
         return;
       }
 
-      const spina = Math.round((rate / 100) * idr);
-      const hasilFormatted = spina.toLocaleString("id-ID") + "M Spina";
+      const spina = Math.round((rate / 100) * idr * 1000);
+      const hasilFormatted = spina.toLocaleString("id-ID") + " Spina";
       resultBox.innerHTML = `<strong>${hasilFormatted}</strong>`;
       resultBox.style.display = "block";
     }
   </script>
 
-  <!-- Tambahkan JS toggle mode -->
-  <script>
-    const body = document.getElementById("main-body");
-  const toggleBtn = document.getElementById("modeToggle");
-
-  const savedMode = localStorage.getItem("mode") || "dark";
-  if (savedMode === "light") {
-    body.classList.add("light-mode");
-    toggleBtn.textContent = "Dark Mode";
-  }
-
-  toggleBtn.addEventListener("click", () => {
-    body.classList.toggle("light-mode");
-    const isLight = body.classList.contains("light-mode");
-    toggleBtn.textContent = isLight ? "Dark Mode" : "Light Mode";
-    localStorage.setItem("mode", isLight ? "light" : "dark");
-  });
-  </script>
 </body>
-</html>
+  </html>
