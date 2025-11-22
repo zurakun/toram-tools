@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Info - Toram Tools</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Rubik', 'Segoe UI', sans-serif;
+      background-color: #0a0a0a;
+      color: #e0e0e0;
+      transition: background-color 0.4s, color 0.4s;
+      line-height: 1.6;
+    }
+
+    body.light-mode {
+      background-color: #f5f5f5;
+      color: #222;
+    }
+
+    /* Navbar */
+    nav {
+      background-color: #1a1a1a;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    body.light-mode nav {
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #50cefb;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    /* Toggle Switch */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #333;
+      transition: 0.4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #50cefb;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .slider i {
+      position: absolute;
+      top: 8px;
+      font-size: 16px;
+      transition: 0.4s;
+    }
+
+    .slider .fa-moon {
+      left: 8px;
+      color: #f1c40f;
+    }
+
+    .slider .fa-sun {
+      right: 8px;
+      color: #f39c12;
+      opacity: 0;
+    }
+
+    input:checked + .slider .fa-moon {
+      opacity: 0;
+    }
+
+    input:checked + .slider .fa-sun {
+      opacity: 1;
+    }
+
+    /* Hamburger Menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background-color: #50cefb;
+      transition: 0.3s;
+      border-radius: 2px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #e0e0e0;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    body.light-mode nav ul li a {
+      color: #222;
+    }
+
+    nav ul li a:hover {
+      color: #50cefb;
+    }
+
+    /* Container */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      animation: fadeSlideUp 0.7s ease-out;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #50cefb;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin-top: 30px;
+      color: #50cefb;
+      margin-bottom: 15px;
+    }
+
+    body.light-mode h2 {
+      color: #0288d1;
+    }
+
+    p {
+      color: #ccc;
+      line-height: 1.8;
+      margin-bottom: 15px;
+    }
+
+    body.light-mode p {
+      color: #555;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    li {
+      margin-bottom: 10px;
+      color: #ccc;
+      line-height: 1.8;
+    }
+
+    body.light-mode li {
+      color: #555;
+    }
+
+    .credit {
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid #333;
+      font-size: 14px;
+      color: #777;
+      text-align: center;
+    }
+
+    body.light-mode .credit {
+      border-top: 1px solid #ddd;
+    }
+
+    .credit p {
+      margin-bottom: 15px;
+      color: #777;
+    }
+
+    .credit a {
+      color: #50cefb;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .credit a:hover {
+      color: #41b2fb;
+    }
+
+    .socials {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .socials a {
+      color: #50cefb;
+      font-size: 1.5rem;
+      transition: 0.3s;
+    }
+
+    .socials a:hover {
+      color: #41b2fb;
+      transform: scale(1.2);
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-right {
+        gap: 15px;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      nav ul {
+        position: fixed;
+        top: 65px;
+        right: 10px;
+        background-color: #1a1a1a;
+        flex-direction: column;
+        width: 200px;
+        padding: 20px;
+        gap: 15px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        border-radius: 8px;
+        transform: translateX(120%);
+        transition: transform 0.3s ease;
+        z-index: 998;
+      }
+
+      body.light-mode nav ul {
+        background-color: #fff;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      }
+
+      nav ul.active {
+        transform: translateX(0);
+      }
+
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(8px, 8px);
+      }
+
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(8px, -8px);
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      .container {
+        padding: 30px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">Toram Tools</div>
+    <div class="nav-right">
+      <ul id="navMenu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="xp.html">Exp Calc</a></li>
+        <li><a href="spina.html">Spina</a></li>
+        <li><a href="mats.html">Mats</a></li>
+        <li><a href="info.html">Info</a></li>
+      </ul>
+      <div class="theme-toggle">
+        <label class="switch">
+          <input type="checkbox" id="themeToggle">
+          <span class="slider">
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
+          </span>
+        </label>
+      </div>
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="container">
+    <h1>Informasi Tentang Toram Tools</h1>
+    <p>
+      Toram Tools adalah kumpulan alat bantu berbasis web untuk mempermudah pemain Toram Online dalam melakukan berbagai perhitungan, terutama yang berkaitan dengan material crafting dan estimasi harga spina berdasarkan rate.
+    </p>
+
+    <h2 id="tools">Tools yang Tersedia</h2>
+    <ul>
+      <li><strong>MatsCalc:</strong> Menghitung kebutuhan material berdasarkan jumlah poin crafting.</li>
+      <li><strong>SpinaCalc:</strong> Menghitung estimasi spina berdasarkan nilai IDR dan rate per 100M.</li>
+      <li><strong>Info Spina Calc:</strong> Menghitung atau mengconverter spina-rupiah. Hasil lebih akurat dan praktis.</li>
+    </ul>
+
+    <h2>Tujuan Website</h2>
+    <p>
+      Website ini dibuat untuk memberikan solusi cepat dan praktis tanpa perlu membuka aplikasi tambahan. Semua berjalan langsung di browser dan dapat diakses kapan saja.
+    </p>
+
+    <h2>Terima Kasih</h2>
+    <p>
+      Proyek ini dikerjakan oleh <strong>Zura OFC</strong> dengan bantuan <strong>Claude AI</strong> sebagai co-creator yang memberikan kode, inspirasi, dan optimasi. Semua hak cipta dan penghargaan tetap milik masing-masing pemilik game dan platform.
+    </p>
+
+    <div class="credit">
+      <p>&copy; 2025 Toram Tools. All rights reserved. | Developed by Zura</p>
+      <div class="socials">
+        <a href="https://www.instagram.com/zuraofc_?igsh=MXhkdHh0Z2MwMmE1ag==" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://whatsapp.com/channel/0029VaFqhZ06GcGB1H7hYr2F" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://youtube.com/@zuraofc?si=9QGtDrjD6popstUE" title="YouTube"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+
+    // Load saved theme - default is dark
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') {
+      body.classList.add('light-mode');
+      themeToggle.checked = true;
+    }
+
+    // Toggle theme
+    themeToggle.addEventListener('change', () => {
+      if (themeToggle.checked) {
+        body.classList.add('light-mode');
+        localStorage.setItem('theme', 'light');
+      } else {
+        body.classList.remove('light-mode');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+
+    // Hamburger Menu
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+
+    // Close menu when clicking menu item
+    document.querySelectorAll('#navMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+      });
+    });
+  </script>
+
+</body>
+  </html>
